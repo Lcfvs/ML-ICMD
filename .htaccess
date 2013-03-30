@@ -1,0 +1,49 @@
+########################################################################################
+# The .htaccess
+#
+# Defines the context & rewrites URLs
+#
+# @name      : .htaccess
+# @author    : Michaël Rouges <michael.rouges@gmail.com>
+# @version   : 0.9
+# @package   : ML-ICMD::htaccess
+# @link      : Not yet
+# @copyright : 2012 Rouges Michaël [LGPL 3] (http://www.gnu.org/licenses/lgpl-3.0.txt)
+########################################################################################
+<IfModule mod_rewrite.c>
+
+	RewriteEngine On
+	RewriteBase /
+
+	# Site paths
+	SetEnvIf Host ^(?:([\w\d-]*)\.)?([\w\d-]*)\.([\d\w]+)$ sitePaths[subdomain]=./$2/$3/$1/
+	SetEnvIf Host ^(?:([\w\d-]*)\.)?([\w\d-]*)\.([\d\w]+)$ sitePaths[tld]=./$2/$3/
+	SetEnvIf Host ^(?:([\w\d-]*)\.)?([\w\d-]*)\.([\d\w]+)$ sitePaths[domain]=./$2/
+	SetEnvIf Host .* sitePaths[root]=./
+	
+	# Ressources paths
+	SetEnvIf Host .* sharedPaths[publicDir]=_public/
+	SetEnvIf Host .* sharedPaths[privateDir]=_private/
+	
+	# Config filename
+	SetEnvIf Host .* configFilename=config.inc.php
+
+	# Ressource paths
+	SetEnvIf Host .* extPaths[class.php]=_classes/
+	SetEnvIf Host .* extPaths[inc.php]=_includes/
+	SetEnvIf Host .* extPaths[tpl]=_templates/
+	SetEnvIf Host .* extPaths[css]=_public/css/
+	SetEnvIf Host .* extPaths[js]=_public/js/
+	SetEnvIf Host .* extPaths[jpg]=_public/jpg/
+	SetEnvIf Host .* extPaths[png]=_public/png/
+	
+	# ICMD links
+	RewriteCond %{ENV:instanceInfos[controller]} ^$
+	RewriteCond %{THE_REQUEST} ^(?:GET|POST)\s/([a-z][\w\d]+)-([a-z][\w\d]+)(?:-(.*))?\sHTTP/\d\.\d$
+	RewriteRule ^(.*)$ index.php [L,E=instanceInfos[controller]:%2,E=instanceInfos[method]:%1,E=instanceInfos[params]:%3]
+
+	# Default ICMD link
+	RewriteCond %{ENV:instanceInfos[controller]} ^$
+	RewriteRule ^(.*)$ index.php [L,E=instanceInfos[controller]:home,E=instanceInfos[method]:init,E=instanceInfos[params]:%3]
+
+</IfModule>
