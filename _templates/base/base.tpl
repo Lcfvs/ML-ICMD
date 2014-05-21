@@ -5,19 +5,19 @@
 		<title> </title>
 		<link rel="stylesheet" href="download-file-base.css" type="text/css" />
 	</head>
-	<body>
-		<header></header>
-		<aside>
-			<p>asideLeft</p>
-		</aside>
-		<section class="leftSection rightSection">
-			<p>section</p>
-		</section>
-		<aside>
-			<p>asideRight</p>
-		</aside>
-		<footer>
-			<p>footer</p>
-		</footer>
-	</body>
+    <body>
+        <header>
+            <h1></h1>
+            <h2></h2>
+            <nav>
+                <ul>
+                </ul>
+            </nav>
+        </header>
+        <hr />
+        <section>
+        </section>
+        <hr />
+        <footer></footer>
+    </body>
 </html>

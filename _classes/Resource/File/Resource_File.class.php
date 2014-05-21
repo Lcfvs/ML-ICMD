@@ -106,7 +106,7 @@
 		private function _setMimeType(){
 			$mimes=json_decode(RESOURCE_FILE_JSON_MIMES);
 			$extension=$this->_extension;
-			$this->_mimeType=!$this->isBinary&&isset($mimes->$extension)?$mimes->$extension:'application/octet-stream';
+			$this->_mimeType=isset($mimes->$extension)?$mimes->$extension:'application/octet-stream';
 		}
 		/*
 			@name   : _setSize
@@ -134,7 +134,7 @@
 				$length=$remainingSize-$length<0?$remainingSize:$length;
 				if($length>0){
 					if(!isset($this->_handle)){
-						$this->_handle=fopen($this->path,$this->isBinary?'rb':'r');
+						$this->_handle=fopen($this->path,$this->_isBinary?'rb':'r');
 					}
 					fseek($this->handle,$startRange);
 					$data=fread($this->_handle,$length);

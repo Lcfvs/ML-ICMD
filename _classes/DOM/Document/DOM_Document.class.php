@@ -14,13 +14,12 @@
 	class DOM_Document extends DOMImplementation{
 		private $_document;
 		private $unbreakables=array('head','title','script','style','pre','span');
-		public function __construct($baseTemplate,$lang='en'){
+		public function __construct($baseTemplate,$lang='en',$charset='utf-8',$standalone=true){
 			$_document=$this->_document=$this->createDocument('','html',$this->createDocumentType('html','',''));
 			$_document->load($baseTemplate->path);
-			$_document->encoding='utf-8';
-			$_document->standalone=true;
+			$_document->encoding=$charset;
+			$_document->standalone=$standalone;
 			$_document->documentElement->setAttribute('lang',$lang);
-			$_document->documentElement->setAttribute('xml:lang',$lang);
 		}
 		public function setNode($nodeName,$parentNode,$nextNode=null,$attributes=null,$text=null){
 			$document=$this->_document;
@@ -78,8 +77,7 @@
 		public function __destruct(){
 			$this->_document->formatOutput=true;
 			$this->_document->preserveWhiteSpace=false;
-			$this->_document->loadXML($this->_document->saveXML()); 
-			echo $this->_document->saveXML();
+			echo $this->_document->saveHTML();
 		}
 	}
 ?>
